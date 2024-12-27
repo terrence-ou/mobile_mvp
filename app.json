@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile_mvp",
-    "slug": "mobile_mvp",
+    "name": "mobile-mvp",
+    "slug": "mobile-mvp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
