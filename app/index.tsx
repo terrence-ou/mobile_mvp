@@ -1,17 +1,10 @@
+import ViewWrapper from "@/components/ViewWrapper";
 import { Link } from "expo-router";
-import { Text, View } from "react-native";
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-      <Link href="/(tabs)">To Main</Link>
-    </View>
+    <ViewWrapper>
+      <Link href="/dictionary">Go to dictionary</Link>
+    </ViewWrapper>
   );
 }
