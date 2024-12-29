@@ -1,14 +1,10 @@
-import React from "react";
-import { Stack } from "expo-router";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Slot } from "expo-router";
+import { SessionProvider } from "@/context/AuthContext";
 
-export default function RootLayout() {
+export default function Root() {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" />
-      <Stack.Screen name="welcome" />
-      <Stack.Screen name="dictionary" />
-      <Stack.Screen name="profile" />
-    </Stack>
+    <SessionProvider>
+      <Slot />
+    </SessionProvider>
   );
 }

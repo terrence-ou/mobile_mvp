@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.galaxies.firebase",
+      "bundleIdentifier": "com.terrence.mobile-mvp",
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
@@ -18,7 +18,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.galaxies.firebase",
+      "package": "com.terrence.mobile-mvp",
       "googleServicesFile": "./google-services.json"
     },
     "web": {
@@ -37,9 +37,23 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      ["expo-build-properties", { "ios": { "useFrameworks": "static" } }],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
       "@react-native-firebase/app",
-      "@react-native-firebase/auth"
+      "@react-native-firebase/auth",
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": true,
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
