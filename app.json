@@ -13,14 +13,6 @@
       "bundleIdentifier": "com.terrence.mobile-mvp",
       "googleServicesFile": "./GoogleService-Info.plist"
     },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.terrence.mobile-mvp",
-      "googleServicesFile": "./google-services.json"
-    },
     "web": {
       "bundler": "metro",
       "output": "static",

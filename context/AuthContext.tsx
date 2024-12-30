@@ -2,12 +2,12 @@ import { useContext, createContext, type PropsWithChildren } from "react";
 import { useStorageState } from "@/hooks/useStorageState";
 
 const AuthContext = createContext<{
-  signIn: () => void;
+  signIn: (sessionToken?: string | null) => void;
   signOut: () => void;
   session?: string | null;
   isLoading: boolean;
 }>({
-  signIn: () => null,
+  signIn: () => undefined,
   signOut: () => null,
   session: null,
   isLoading: false,
@@ -30,8 +30,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
   return (
     <AuthContext.Provider
       value={{
-        signIn: () => {
-          setSession("fake-session");
+        signIn: (sessionToken?: string | null) => {
+          if (sessionToken) {
+            setSession(sessionToken);
+          } else setSession(null);
         },
         signOut: () => {
           setSession(null);
