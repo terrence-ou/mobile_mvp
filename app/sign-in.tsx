@@ -1,3 +1,4 @@
+// import axios from "axios";
 import { router } from "expo-router";
 import { Text, View, StyleSheet } from "react-native";
 import { AppleButton } from "@invertase/react-native-apple-authentication";
@@ -7,12 +8,23 @@ import { useSession } from "@/context/AuthContext";
 import ViewWrapper from "@/components/ViewWrapper";
 
 export default function SignIn() {
+  // const apiURL = process.env.EXPO_PUBLIC_SERVICE_URL;
   const { signIn } = useSession();
 
   const handleAppleSignIn = async () => {
     try {
       const identityToken = await appleSignIn();
       if (identityToken) {
+        // const response = await axios.post(
+        //   `${apiURL}/users/verify-user/apple`,
+        //   {},
+        //   {
+        //     headers: {
+        //       "identity-token": identityToken,
+        //       "Content-Type": "application/json",
+        //     },
+        //   }
+        // );
         signIn(identityToken);
         router.replace("/dictionary");
       } else {
@@ -28,6 +40,7 @@ export default function SignIn() {
       <View style={styles.container}>
         <View style={styles.subContainer}>
           <Text style={styles.title}>Jiten</Text>
+          <Text>( jee-ten | じてん )</Text>
           <Text style={styles.subTitle}>
             Jiten is a <Text>FREE</Text> multi-language-supported dictionary app. The
             reason for the registration is to avoid misused by strange bots.
@@ -59,10 +72,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 55,
     fontWeight: "bold",
-    marginVertical: 20,
   },
   subTitle: {
     fontSize: 16,
     textAlign: "left",
+    marginTop: 30,
   },
 });
