@@ -1,54 +1,32 @@
 // import axios from "axios";
 import { router } from "expo-router";
 import { Text, View, StyleSheet, Pressable } from "react-native";
-import { AppleButton } from "@invertase/react-native-apple-authentication";
 import { appleSignIn } from "@/apis/appleSignin";
 
 import { useSession } from "@/context/AuthContext";
 import ViewWrapper from "@/components/ViewWrapper";
 import { googleSignIn } from "@/apis/googleSignin";
 
+import SignInButton from "@/components/SignInButton";
+import { useCallback } from "react";
+
 export default function SignIn() {
   // const apiURL = process.env.EXPO_PUBLIC_SERVICE_URL;
   const { signIn } = useSession();
 
-  const handleAppleSignIn = async () => {
+  const handleSignIn = useCallback(async (providerSignInFn: () => Promise<string>) => {
     try {
-      const identityToken = await appleSignIn();
-      if (identityToken) {
-        // const response = await axios.post(
-        //   `${apiURL}/users/verify-user/apple`,
-        //   {},
-        //   {
-        //     headers: {
-        //       "identity-token": identityToken,
-        //       "Content-Type": "application/json",
-        //     },
-        //   }
-        // );
-        signIn(identityToken);
+      const token = await providerSignInFn();
+      if (token) {
+        signIn(token);
         router.replace("/dictionary");
       } else {
-        throw new Error("Apple Sign-In failed - no identify token returned");
+        throw new Error("Sign-In failed - no identify token returned");
       }
     } catch (error) {
-      alert(`Apple Sign-In Error: ${error}`);
+      alert(`Sign-In Error: ${error}`);
     }
-  };
-
-  const handleGoogleSignIn = async () => {
-    try {
-      const idToken = await googleSignIn();
-      if (idToken) {
-        signIn(idToken);
-        router.replace("/dictionary");
-      } else {
-        throw new Error("Google Sign-In failed - no identify token returned");
-      }
-    } catch (error) {
-      alert(`Google Sign-In Error: ${error}`);
-    }
-  };
+  }, []);
 
   return (
     <ViewWrapper>
@@ -61,15 +39,8 @@ export default function SignIn() {
             reason for the registration is to avoid misused by strange bots.
           </Text>
         </View>
-        <AppleButton
-          buttonStyle={AppleButton.Style.BLACK}
-          buttonType={AppleButton.Type.CONTINUE}
-          style={{ width: 300, height: 45 }}
-          onPress={handleAppleSignIn}
-        />
-        <Pressable onPress={() => handleGoogleSignIn()}>
-          <Text>Google Sign-In</Text>
-        </Pressable>
+        <SignInButton type="apple" onPress={() => handleSignIn(appleSignIn)} />
+        <SignInButton type="google" onPress={() => handleSignIn(googleSignIn)} />
       </View>
     </ViewWrapper>
   );
