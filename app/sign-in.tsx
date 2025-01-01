@@ -12,13 +12,19 @@ import React from "react";
 
 export default function SignIn() {
   const { signIn } = useSession();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingState, setLoadingState] = useState<[boolean, string]>([false, ""]);
+  const handleLoadingState = (newState: [boolean, string]) => {
+    setLoadingState(newState);
+  };
 
   const handleSignIn = useCallback(
-    async (providerSignInFn: () => Promise<string | undefined>) => {
+    async (
+      providerSignInFn: (
+        handleState: typeof handleLoadingState
+      ) => Promise<string | undefined>
+    ) => {
       try {
-        setLoading(true);
-        const token = await providerSignInFn();
+        const token = await providerSignInFn(handleLoadingState);
         if (token) {
           signIn(token);
           router.replace("/dictionary");
@@ -28,35 +34,35 @@ export default function SignIn() {
       } catch (error) {
         alert(`Sign-In Error: ${error}`);
       } finally {
-        setLoading(false);
       }
     },
     []
   );
 
+  if (loadingState[0]) {
+    return (
+      <View style={styles.loadingBackdrop}>
+        <ActivityIndicator size="large" color="#000000" />
+        <Text style={styles.loadingText}>{loadingState[1]}</Text>
+      </View>
+    );
+  }
+
   return (
-    <>
-      {loading && (
-        <View style={styles.loadingBackdrop}>
-          <ActivityIndicator size="large" color="white" />
-          <Text style={styles.loadingText}>Signing In...</Text>
+    <ViewWrapper>
+      <View style={styles.container}>
+        <View style={styles.subContainer}>
+          <Text style={styles.title}>Jiten</Text>
+          <Text>( jee-ten | じてん )</Text>
+          <Text style={styles.subTitle}>
+            Jiten is a FREE multi-language-supported dictionary app. The reason for the
+            registration is to avoid misused by strange bots.
+          </Text>
         </View>
-      )}
-      <ViewWrapper>
-        <View style={styles.container}>
-          <View style={styles.subContainer}>
-            <Text style={styles.title}>Jiten</Text>
-            <Text>( jee-ten | じてん )</Text>
-            <Text style={styles.subTitle}>
-              Jiten is a FREE multi-language-supported dictionary app. The reason for the
-              registration is to avoid misused by strange bots.
-            </Text>
-          </View>
-          <SignInButton type="apple" onPress={() => handleSignIn(appleSignIn)} />
-          <SignInButton type="google" onPress={() => handleSignIn(googleSignIn)} />
-        </View>
-      </ViewWrapper>
-    </>
+        <SignInButton type="apple" onPress={() => handleSignIn(appleSignIn)} />
+        <SignInButton type="google" onPress={() => handleSignIn(googleSignIn)} />
+      </View>
+    </ViewWrapper>
   );
 }
 
@@ -89,14 +95,13 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#000000b3", // rgba(0, 0, 0, 0.7) in hex
     zIndex: 100,
   },
   loadingText: {
-    color: "#FFFFFF", // white in hex
-    fontSize: 20,
-    fontWeight: 500,
-    letterSpacing: 1,
+    color: "#000000",
+    fontSize: 16,
+    fontWeight: 400,
+    letterSpacing: 0.6,
     marginTop: 10,
   },
 });

@@ -9,7 +9,9 @@ GoogleSignin.configure({
   webClientId: GOOGLE_WEB_CLIENT_ID,
 });
 
-export async function googleSignIn(): Promise<string | undefined> {
+export async function googleSignIn(
+  handleState: (newState: [boolean, string]) => void
+): Promise<string | undefined> {
   const url = `${SERVICE_URL}/user/verify-user/google`;
   // check if the device has Google Play Services installed
   await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
@@ -19,6 +21,8 @@ export async function googleSignIn(): Promise<string | undefined> {
     throw new Error("Google Sign-In failed - no identify token returned");
   }
   const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+  handleState([true, "Connecting to APP server..."]);
   await auth().signInWithCredential(googleCredential);
   const serverResponse = await axios.post(
     url,
