@@ -1,6 +1,6 @@
 // import axios from "axios";
 import { router } from "expo-router";
-import { Text, View, StyleSheet, Pressable } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { appleSignIn } from "@/apis/appleSignin";
 
 import { useSession } from "@/context/AuthContext";
@@ -11,7 +11,6 @@ import SignInButton from "@/components/SignInButton";
 import { useCallback } from "react";
 
 export default function SignIn() {
-  // const apiURL = process.env.EXPO_PUBLIC_SERVICE_URL;
   const { signIn } = useSession();
 
   const handleSignIn = useCallback(async (providerSignInFn: () => Promise<string>) => {
@@ -35,8 +34,8 @@ export default function SignIn() {
           <Text style={styles.title}>Jiten</Text>
           <Text>( jee-ten | じてん )</Text>
           <Text style={styles.subTitle}>
-            Jiten is a <Text>FREE</Text> multi-language-supported dictionary app. The
-            reason for the registration is to avoid misused by strange bots.
+            Jiten is a FREE multi-language-supported dictionary app. The reason for the
+            registration is to avoid misused by strange bots.
           </Text>
         </View>
         <SignInButton type="apple" onPress={() => handleSignIn(appleSignIn)} />
@@ -49,11 +48,12 @@ export default function SignIn() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
+    paddingBottom: 50,
   },
   subContainer: {
-    marginVertical: 50,
+    marginVertical: 70,
     paddingHorizontal: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -65,6 +65,6 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: 16,
     textAlign: "left",
-    marginTop: 30,
+    marginTop: 40,
   },
 });
