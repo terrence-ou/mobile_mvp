@@ -1,11 +1,15 @@
+import axios from "axios";
 import auth from "@react-native-firebase/auth";
 import appleAuth, {
   AppleAuthRequestOperation,
   AppleAuthRequestScope,
 } from "@invertase/react-native-apple-authentication";
 
+const SERVICE_URL = process.env.EXPO_PUBLIC_SERVICE_URL;
+
 // Signup/ Signin the user with Apple ID
-export async function appleSignIn() {
+export async function appleSignIn(): Promise<string | undefined> {
+  const url = `${SERVICE_URL}/user/verify-user/apple`;
   const appleAuthRequestResponse = await appleAuth.performRequest({
     requestedOperation: AppleAuthRequestOperation.LOGIN,
     requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
@@ -21,8 +25,15 @@ export async function appleSignIn() {
   const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
 
   // Sign the user in with the credential
-  auth().signInWithCredential(appleCredential);
-  return identityToken;
+  await auth().signInWithCredential(appleCredential);
+  const serverResponse = await axios.post(
+    url,
+    {},
+    {
+      headers: { "identity-token": identityToken },
+    }
+  );
+  return serverResponse.data["session_token"];
 }
 
 // Revoke the user's Apple ID sign-in

@@ -1,31 +1,34 @@
-// import axios from "axios";
+import { useCallback } from "react";
 import { router } from "expo-router";
 import { Text, View, StyleSheet } from "react-native";
-import { appleSignIn } from "@/apis/appleSignin";
 
 import { useSession } from "@/context/AuthContext";
-import ViewWrapper from "@/components/ViewWrapper";
+import { appleSignIn } from "@/apis/appleSignin";
 import { googleSignIn } from "@/apis/googleSignin";
 
+import ViewWrapper from "@/components/ViewWrapper";
 import SignInButton from "@/components/SignInButton";
-import { useCallback } from "react";
 
 export default function SignIn() {
   const { signIn } = useSession();
 
-  const handleSignIn = useCallback(async (providerSignInFn: () => Promise<string>) => {
-    try {
-      const token = await providerSignInFn();
-      if (token) {
-        signIn(token);
-        router.replace("/dictionary");
-      } else {
-        throw new Error("Sign-In failed - no identify token returned");
+  const handleSignIn = useCallback(
+    async (providerSignInFn: () => Promise<string | undefined>) => {
+      try {
+        const token = await providerSignInFn();
+        if (token) {
+          signIn(token);
+          router.replace("/dictionary");
+        } else {
+          throw new Error("Sign-In failed - no identify token returned");
+        }
+      } catch (error) {
+        alert(`Sign-In Error: ${error}`);
+      } finally {
       }
-    } catch (error) {
-      alert(`Sign-In Error: ${error}`);
-    }
-  }, []);
+    },
+    []
+  );
 
   return (
     <ViewWrapper>
