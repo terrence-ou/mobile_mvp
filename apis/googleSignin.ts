@@ -12,7 +12,7 @@ GoogleSignin.configure({
 export async function googleSignIn(
   handleState: (newState: [boolean, string]) => void
 ): Promise<string | undefined> {
-  const url = `${SERVICE_URL}/user/verify-user/google`;
+  const url = `${SERVICE_URL}/user/signin/google`;
   // check if the device has Google Play Services installed
   await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
   const signInResult = await GoogleSignin.signIn();

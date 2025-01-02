@@ -11,12 +11,11 @@ const SERVICE_URL = process.env.EXPO_PUBLIC_SERVICE_URL;
 export async function appleSignIn(
   handleState: (newState: [boolean, string]) => void
 ): Promise<string | undefined> {
-  const url = `${SERVICE_URL}/user/verify-user/apple`;
+  const url = `${SERVICE_URL}/user/signin/apple`;
   const appleAuthRequestResponse = await appleAuth.performRequest({
     requestedOperation: AppleAuthRequestOperation.LOGIN,
     requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
   });
-  handleState([true, "Connecting to Apple..."]);
   // Ensure Apple returned a user identityToken
   if (!appleAuthRequestResponse.identityToken) {
     throw new Error("Apple Sign-In failed - no identify token returned");
