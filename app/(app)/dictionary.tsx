@@ -2,7 +2,7 @@ import { View, StyleSheet } from "react-native";
 import ViewWrapper from "@/components/ViewWrapper";
 import DictionaryHeader from "@/components/DictionaryHeader";
 // import SignOutButton from "@/components/SignOutButton";
-import WordCard from "@/components/WordCard";
+import WordCard from "@/components/wordcard/WordCard";
 import { mockWord } from "@/constants/mockData";
 import { Word } from "@/models/word";
 
