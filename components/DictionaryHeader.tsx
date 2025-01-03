@@ -8,12 +8,6 @@ export default function DictionaryHeader() {
   return (
     <View style={styles.constainer}>
       <Pressable>
-        <Image source={flag} contentFit="cover" style={styles.flag} />
-      </Pressable>
-      <Pressable>
-        <Image source={flag} contentFit="cover" style={styles.flag} />
-      </Pressable>
-      <Pressable>
         <FontAwesome size={26} name="user-circle" />
       </Pressable>
     </View>

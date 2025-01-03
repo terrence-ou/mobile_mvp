@@ -34,6 +34,7 @@ export default function SignIn() {
       } catch (error) {
         alert(`Sign-In Error: ${error}`);
       } finally {
+        setLoadingState([false, ""]);
       }
     },
     []
