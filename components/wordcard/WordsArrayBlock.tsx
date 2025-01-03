@@ -2,9 +2,11 @@ import { wordCardStyles } from "@/constants/theme";
 import { View, Text, StyleSheet } from "react-native";
 
 export default function WordsArrayBlock({
+  word,
   title,
   terms,
 }: {
+  word: string;
   title: string;
   terms: string[];
 }) {
@@ -13,8 +15,8 @@ export default function WordsArrayBlock({
       <Text>{title}</Text>
       <View style={wordCardStyles.sectionBlock}>
         <View style={styles.wordList}>
-          {terms.map((word) => {
-            return <Text key={`${title}-${word}`}>{word}</Text>;
+          {terms.map((term) => {
+            return <Text key={`${word}-${title}-${term}`}>{term}</Text>;
           })}
         </View>
       </View>

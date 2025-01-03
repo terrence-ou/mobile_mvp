@@ -3,16 +3,48 @@ import { Word } from "@/models/word";
 import DefinitionBlock from "./DefinitionBlock";
 import TensesBlock from "./TensesBlock";
 import WordsArrayBlock from "./WordsArrayBlock";
+import Animated, {
+  Extrapolation,
+  interpolate,
+  SharedValue,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 
 type WordCardProps = {
   word: Word;
+  index: number;
+  scrollX: SharedValue<number>;
 };
 
 const { width } = Dimensions.get("screen");
+const offSetScale = 0.12;
 
-export default function WordCard({ word }: WordCardProps) {
+export default function WordCard({ word, index, scrollX }: WordCardProps) {
+  const reAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateX: interpolate(
+            scrollX.value,
+            [(index - 1) * width, index * width, (index + 1) * width],
+            [-width * offSetScale, 0, width * offSetScale],
+            Extrapolation.CLAMP
+          ),
+        },
+        {
+          scale: interpolate(
+            scrollX.value,
+            [(index - 1) * width, index * width, (index + 1) * width],
+            [0.95, 1.0, 0.95],
+            Extrapolation.CLAMP
+          ),
+        },
+      ],
+    };
+  });
+
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, reAnimatedStyle]}>
       <View style={styles.cardBody}>
         {/* word */}
         <View style={styles.wordContainer}>
@@ -43,11 +75,11 @@ export default function WordCard({ word }: WordCardProps) {
           />
         </ScrollView>
       </View>
-    </View>
+    </Animated.View>
   );
 }
 
-const paddingHorizontal = 10;
+const paddingHorizontal = 12;
 
 const styles = StyleSheet.create({
   container: {
@@ -55,11 +87,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: 20,
   },
   cardBody: {
     height: 530,
-    width: 310,
+    width: "85%",
     borderWidth: 1,
     borderRadius: 16,
     paddingVertical: 16,
