@@ -1,20 +1,15 @@
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import ViewWrapper from "@/components/ViewWrapper";
 import DictionaryHeader from "@/components/DictionaryHeader";
-// import SignOutButton from "@/components/SignOutButton";
-import WordCard from "@/components/wordcard/WordCard";
-import { mockWord } from "@/constants/mockData";
+import { mockWordList } from "@/constants/mockData";
 import { Word } from "@/models/word";
+import WordSlider from "@/components/WordSlider";
 
 export default function Dictionary() {
-  const word = new Word(mockWord);
   return (
     <ViewWrapper>
       <DictionaryHeader />
-      <View style={styles.container}>
-        {/* The time, wifi, battery bar */}
-        <WordCard word={word} />
-      </View>
+      <WordSlider words={mockWordList.words.map((word) => new Word(word))} />
     </ViewWrapper>
   );
 }

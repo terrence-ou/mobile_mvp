@@ -19,7 +19,9 @@ export default function DefinitionBlock({
             <Text>{definition.meaning}</Text>
             <View>
               <Text>Example</Text>
-              <Text>{definition.examples[0]}</Text>
+              {definition.examples.map((example, i) => (
+                <Text key={`${word}-example-${i}`}>{example}</Text>
+              ))}
             </View>
           </View>
         ))}

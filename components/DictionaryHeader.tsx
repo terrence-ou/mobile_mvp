@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Image } from "expo-image";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { theme } from "@/constants/theme";
 
 const flag = require("@/assets/flags/gb.svg");
 
@@ -16,6 +17,7 @@ export default function DictionaryHeader() {
 
 const styles = StyleSheet.create({
   constainer: {
+    paddingHorizontal: theme.page.paddingHorizontal,
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
