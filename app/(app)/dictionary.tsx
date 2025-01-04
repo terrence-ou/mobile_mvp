@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import ViewWrapper from "@/components/ViewWrapper";
 import DictionaryHeader from "@/components/DictionaryHeader";
-import { mockWordList } from "@/constants/mockData";
+import { mockWordList, mockWord } from "@/constants/mockData";
 import { Word } from "@/models/word";
 import WordSlider from "@/components/WordSlider";
 
@@ -9,7 +9,9 @@ export default function Dictionary() {
   return (
     <ViewWrapper>
       <DictionaryHeader />
-      <WordSlider words={mockWordList.words.map((word) => new Word(word))} />
+      <WordSlider
+        words={[...mockWordList.words, mockWord].map((word) => new Word(word))}
+      />
     </ViewWrapper>
   );
 }

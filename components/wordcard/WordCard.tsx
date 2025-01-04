@@ -28,7 +28,7 @@ export default function WordCard({ word, index, scrollX }: WordCardProps) {
             scrollX.value,
             [(index - 1) * width, index * width, (index + 1) * width],
             [-width * offSetScale, 0, width * offSetScale],
-            Extrapolation.CLAMP
+            Extrapolation.CLAMP,
           ),
         },
         {
@@ -36,7 +36,7 @@ export default function WordCard({ word, index, scrollX }: WordCardProps) {
             scrollX.value,
             [(index - 1) * width, index * width, (index + 1) * width],
             [0.95, 1.0, 0.95],
-            Extrapolation.CLAMP
+            Extrapolation.CLAMP,
           ),
         },
       ],
@@ -62,10 +62,18 @@ export default function WordCard({ word, index, scrollX }: WordCardProps) {
           <TensesBlock word={word.word} tenses={word.tenses} />
           {/* synonyms and antonyms */}
           {word.synonyms.length > 0 && (
-            <WordsArrayBlock title="Synonyms" word={word.word} terms={word.synonyms} />
+            <WordsArrayBlock
+              title="Synonyms"
+              word={word.word}
+              terms={word.synonyms}
+            />
           )}
           {word.antonyms.length > 0 && (
-            <WordsArrayBlock title="Antonyms" word={word.word} terms={word.antonyms} />
+            <WordsArrayBlock
+              title="Antonyms"
+              word={word.word}
+              terms={word.antonyms}
+            />
           )}
           {/* related terms */}
           <WordsArrayBlock
@@ -84,7 +92,6 @@ const paddingHorizontal = 12;
 const styles = StyleSheet.create({
   container: {
     width: width,
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
