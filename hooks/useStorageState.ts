@@ -22,14 +22,12 @@ export async function setStorageItemAsync(key: string, value: string | null) {
 
 export function useStorageState(key: string): UseStateHook<string> {
   const [state, setState] = useAsyncState<string>();
-
   // Get store value
   useEffect(() => {
     SecureStore.getItemAsync(key).then((value) => {
       setState(value);
     });
   }, [key]);
-
   // Set store value
   const setValue = useCallback(
     (value: string | null) => {
