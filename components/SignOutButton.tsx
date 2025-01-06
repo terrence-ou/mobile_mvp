@@ -1,11 +1,12 @@
 import { Pressable, Text, StyleSheet } from "react-native";
-import { useSession } from "@/context/AuthContext";
-import { signOutUser } from "@/apis/signout";
+import { signOutUser } from "@/apis/user";
+import { useAtomSession } from "@/hooks/useAtomSession";
 
 export default function SignOutButton() {
-  const { session, signOut } = useSession();
+  const { session, signOut } = useAtomSession();
+  const sessionToken = session.session_token;
   const handleSignOutUser = async () => {
-    if (session) await signOutUser(session);
+    if (sessionToken) await signOutUser(sessionToken);
     signOut();
   };
   return (

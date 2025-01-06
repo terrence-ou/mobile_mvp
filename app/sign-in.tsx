@@ -2,16 +2,16 @@ import { useCallback, useState } from "react";
 import { router } from "expo-router";
 import { Text, View, StyleSheet, ActivityIndicator } from "react-native";
 
-import { useSession } from "@/context/AuthContext";
 import { appleSignIn } from "@/apis/appleSignin";
 import { googleSignIn } from "@/apis/googleSignin";
+import { useAtomSession } from "@/hooks/useAtomSession";
 
 import ViewWrapper from "@/components/ViewWrapper";
 import SignInButton from "@/components/SignInButton";
 import React from "react";
 
 export default function SignIn() {
-  const { signIn } = useSession();
+  const { signIn } = useAtomSession();
   const [loadingState, setLoadingState] = useState<[boolean, string]>([false, ""]);
   const handleLoadingState = (newState: [boolean, string]) => {
     setLoadingState(newState);
@@ -27,7 +27,7 @@ export default function SignIn() {
         const token = await providerSignInFn(handleLoadingState);
         if (token) {
           signIn(token);
-          router.replace("/dictionary");
+          router.replace("/");
         } else {
           throw new Error("Sign-In failed - no identify token returned");
         }

@@ -1,25 +1,30 @@
 import { useEffect, useState } from "react";
 import { Stack, Redirect } from "expo-router";
-import { useSession } from "@/context/AuthContext";
+import { useAtomSession } from "@/hooks/useAtomSession";
+import { verifySession } from "@/apis/user";
+import { useAppState } from "@/hooks/useAppState";
 
 export default function AppLayout() {
+  const { session, signOut } = useAtomSession();
+  const { appStateVisible } = useAppState();
   const [loading, setLoading] = useState<boolean>(true);
-  const { session } = useSession();
+  const sessionToken = session.session_token;
 
-  // leave 500ms for loading the session token
+  // Verify session every time app state is active
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    const revalidate = async () => {
+      const verifyResult = await verifySession();
+      if (!verifyResult) signOut();
       setLoading(false);
-    }, 500);
-    return () => clearTimeout(timeout);
-  });
+    };
+    revalidate();
+  }, [appStateVisible]);
 
-  if (!session && !loading) return <Redirect href="/sign-in" />;
+  if (!sessionToken && !loading) return <Redirect href="/sign-in" />;
+
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
-      <Stack.Screen name="welcome" />
-      <Stack.Screen name="dictionary" />
       <Stack.Screen name="profile" />
     </Stack>
   );
