@@ -7,20 +7,20 @@ import { useAppState } from "@/hooks/useAppState";
 export default function AppLayout() {
   const { session, signOut } = useAtomSession();
   const { appStateVisible } = useAppState();
-  const [loading, setLoading] = useState<boolean>(true);
   const sessionToken = session.session_token;
 
   // Verify session every time app state is active
   useEffect(() => {
     const revalidate = async () => {
-      const verifyResult = await verifySession();
-      if (!verifyResult) signOut();
-      setLoading(false);
+      if (appStateVisible === "active") {
+        const verifyResult = await verifySession();
+        if (!verifyResult) signOut();
+      }
     };
     revalidate();
   }, [appStateVisible]);
 
-  if (!sessionToken && !loading) return <Redirect href="/sign-in" />;
+  if (!sessionToken) return <Redirect href="/sign-in" />;
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
