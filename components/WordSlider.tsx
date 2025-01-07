@@ -57,9 +57,9 @@ export default function WordSlider({ words }: WordSliderProps) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    // flex: 1,
+    // justifyContent: "center",
+    // alignItems: "center",
   },
   flatList: {
     flexGrow: 0,

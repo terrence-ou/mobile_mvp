@@ -1,10 +1,5 @@
 import { View, StyleSheet, Dimensions } from "react-native";
-import Animated, {
-  interpolate,
-  SharedValue,
-  useAnimatedStyle,
-  Extrapolation,
-} from "react-native-reanimated";
+import { SharedValue } from "react-native-reanimated";
 
 type PageIndicatorProps = {
   numCards: number;
@@ -12,37 +7,18 @@ type PageIndicatorProps = {
   scrollX: SharedValue<number>;
 };
 
-const { width } = Dimensions.get("screen");
-
-export default function PageIndicator({
-  numCards,
-  currIndex,
-  scrollX,
-}: PageIndicatorProps) {
+export default function PageIndicator({ numCards, currIndex }: PageIndicatorProps) {
   return (
     <View style={styles.container}>
-      {Array.from({ length: numCards }).map((_, index) => {
-        const reAnimatedStyle = useAnimatedStyle(() => {
-          const dotWidth = interpolate(
-            scrollX.value,
-            [(index - 1) * width, index * width, (index + 1) * width],
-            [6, 16, 6],
-            Extrapolation.CLAMP
-          );
-          return { width: dotWidth };
-        });
-
-        return (
-          <Animated.View
-            key={`pagedot-${index}`}
-            style={[
-              styles.dot,
-              { backgroundColor: currIndex === index ? "black" : "gray" },
-              reAnimatedStyle,
-            ]}
-          ></Animated.View>
-        );
-      })}
+      {Array.from({ length: numCards }).map((_, index) => (
+        <View
+          key={`dot-${index}`}
+          style={[
+            styles.dot,
+            { backgroundColor: index === currIndex ? "black" : "gray" },
+          ]}
+        ></View>
+      ))}
     </View>
   );
 }

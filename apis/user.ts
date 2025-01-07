@@ -1,8 +1,8 @@
 import axios from "axios";
-import { VerificationResponse } from "@/models/session";
+import { VerificationResponse } from "@/models/storage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SESSION_KEY } from "@/constants/storageKeys";
-import { SessionStorage } from "@/models/session";
+import { SessionStorage } from "@/models/storage";
 const SERVICE_URL = process.env.EXPO_PUBLIC_SERVICE_URL;
 
 export async function signOutUser(session: string) {

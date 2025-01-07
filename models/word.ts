@@ -50,7 +50,7 @@ class Word {
     this.definitions = (data.definitions || []).map(
       (definition: any) => new WordDefinition(definition)
     );
-    this.tenses = new WordTenses(data.tenses);
+    this.tenses = data.tenses ? new WordTenses(data.tenses) : new WordTenses({});
     this.synonyms = data.synonyms || [];
     this.antonyms = data.antonyms || [];
     this.relatedTerms = data.related_terms || [];
